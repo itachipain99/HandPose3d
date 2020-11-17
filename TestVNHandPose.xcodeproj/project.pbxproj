@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1567FC0A255E68750010E7EC /* Apple_Watch.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 1567FC09255E68750010E7EC /* Apple_Watch.usdz */; };
+		1567FC0F255E6AD30010E7EC /* HandGestureProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1567FC0E255E6AD30010E7EC /* HandGestureProcessor.swift */; };
+		1567FC14255E87310010E7EC /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1567FC13255E87310010E7EC /* CameraView.swift */; };
 		15E15B25255BDE9F00DA0717 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E15B24255BDE9F00DA0717 /* AppDelegate.swift */; };
 		15E15B27255BDE9F00DA0717 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E15B26255BDE9F00DA0717 /* SceneDelegate.swift */; };
 		15E15B29255BDE9F00DA0717 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E15B28255BDE9F00DA0717 /* ViewController.swift */; };
@@ -35,6 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1567FC09255E68750010E7EC /* Apple_Watch.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Apple_Watch.usdz; sourceTree = "<group>"; };
+		1567FC0E255E6AD30010E7EC /* HandGestureProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandGestureProcessor.swift; sourceTree = "<group>"; };
+		1567FC13255E87310010E7EC /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		15E15B21255BDE9F00DA0717 /* TestVNHandPose.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestVNHandPose.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15E15B24255BDE9F00DA0717 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15E15B26255BDE9F00DA0717 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,7 +107,10 @@
 			children = (
 				15E15B24255BDE9F00DA0717 /* AppDelegate.swift */,
 				15E15B26255BDE9F00DA0717 /* SceneDelegate.swift */,
+				1567FC09255E68750010E7EC /* Apple_Watch.usdz */,
+				1567FC13255E87310010E7EC /* CameraView.swift */,
 				15E15B28255BDE9F00DA0717 /* ViewController.swift */,
+				1567FC0E255E6AD30010E7EC /* HandGestureProcessor.swift */,
 				15E15B2A255BDE9F00DA0717 /* Main.storyboard */,
 				15E15B2D255BDEA200DA0717 /* Assets.xcassets */,
 				15E15B2F255BDEA200DA0717 /* LaunchScreen.storyboard */,
@@ -231,6 +240,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1567FC0A255E68750010E7EC /* Apple_Watch.usdz in Resources */,
 				15E15B31255BDEA200DA0717 /* LaunchScreen.storyboard in Resources */,
 				15E15B2E255BDEA200DA0717 /* Assets.xcassets in Resources */,
 				15E15B2C255BDE9F00DA0717 /* Main.storyboard in Resources */,
@@ -261,6 +271,8 @@
 				15E15B29255BDE9F00DA0717 /* ViewController.swift in Sources */,
 				15E15B25255BDE9F00DA0717 /* AppDelegate.swift in Sources */,
 				15E15B27255BDE9F00DA0717 /* SceneDelegate.swift in Sources */,
+				1567FC14255E87310010E7EC /* CameraView.swift in Sources */,
+				1567FC0F255E6AD30010E7EC /* HandGestureProcessor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
