@@ -92,7 +92,7 @@ class ViewController: UIViewController {
     func setupWatchNode(with item: Item) {
         
         guard let url = item.url, let overlayContent = SCNReferenceNode(url: url) else { return }
-        print(item.url)
+//        print(item.url)
         watchOverlayContent?.removeFromParentNode()
         watchOverlayContent = overlayContent
         watchOverlayContent?.load()
@@ -126,8 +126,10 @@ class ViewController: UIViewController {
         let littlePointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: littlePoint)
         let wristPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: wristPoint)
         let middlePointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: midPoint)
-        self.watchNode.eulerAngles.x = Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
-        self.watchNode.eulerAngles.z = Float(gestureProcessor.getAngleZ((.zero,.zero,wristPointConverted,middlePointConverted)) - 90)
+        let x = Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
+        let z = Float(gestureProcessor.getAngleZ((.zero,.zero,wristPointConverted,middlePointConverted)) - 90)
+        self.watchNode.eulerAngles = .init(-x, -z, 0)
+        print(z)
         // Process new points
         
 //        gestureProcessor.processPointsPair((thumbPointConverted, indexPointConverted))
