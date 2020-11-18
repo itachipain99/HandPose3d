@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1567FC0A255E68750010E7EC /* Apple_Watch.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 1567FC09255E68750010E7EC /* Apple_Watch.usdz */; };
 		1567FC0F255E6AD30010E7EC /* HandGestureProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1567FC0E255E6AD30010E7EC /* HandGestureProcessor.swift */; };
 		1567FC14255E87310010E7EC /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1567FC13255E87310010E7EC /* CameraView.swift */; };
 		15E15B25255BDE9F00DA0717 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E15B24255BDE9F00DA0717 /* AppDelegate.swift */; };
@@ -18,6 +17,7 @@
 		15E15B31255BDEA200DA0717 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15E15B2F255BDEA200DA0717 /* LaunchScreen.storyboard */; };
 		15E15B3C255BDEA200DA0717 /* TestVNHandPoseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E15B3B255BDEA200DA0717 /* TestVNHandPoseTests.swift */; };
 		15E15B47255BDEA200DA0717 /* TestVNHandPoseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E15B46255BDEA200DA0717 /* TestVNHandPoseUITests.swift */; };
+		4AF6809D2564BFBF0074B235 /* Apple_Watch.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4AF6809C2564BFBF0074B235 /* Apple_Watch.usdz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +38,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1567FC09255E68750010E7EC /* Apple_Watch.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Apple_Watch.usdz; sourceTree = "<group>"; };
 		1567FC0E255E6AD30010E7EC /* HandGestureProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandGestureProcessor.swift; sourceTree = "<group>"; };
 		1567FC13255E87310010E7EC /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		15E15B21255BDE9F00DA0717 /* TestVNHandPose.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestVNHandPose.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +54,7 @@
 		15E15B42255BDEA200DA0717 /* TestVNHandPoseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestVNHandPoseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15E15B46255BDEA200DA0717 /* TestVNHandPoseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestVNHandPoseUITests.swift; sourceTree = "<group>"; };
 		15E15B48255BDEA200DA0717 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4AF6809C2564BFBF0074B235 /* Apple_Watch.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Apple_Watch.usdz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +107,7 @@
 			children = (
 				15E15B24255BDE9F00DA0717 /* AppDelegate.swift */,
 				15E15B26255BDE9F00DA0717 /* SceneDelegate.swift */,
-				1567FC09255E68750010E7EC /* Apple_Watch.usdz */,
+				4AF6809C2564BFBF0074B235 /* Apple_Watch.usdz */,
 				1567FC13255E87310010E7EC /* CameraView.swift */,
 				15E15B28255BDE9F00DA0717 /* ViewController.swift */,
 				1567FC0E255E6AD30010E7EC /* HandGestureProcessor.swift */,
@@ -240,9 +240,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1567FC0A255E68750010E7EC /* Apple_Watch.usdz in Resources */,
 				15E15B31255BDEA200DA0717 /* LaunchScreen.storyboard in Resources */,
 				15E15B2E255BDEA200DA0717 /* Assets.xcassets in Resources */,
+				4AF6809D2564BFBF0074B235 /* Apple_Watch.usdz in Resources */,
 				15E15B2C255BDE9F00DA0717 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,13 +449,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ABK98C7328;
+				DEVELOPMENT_TEAM = Z3S2SVTN84;
 				INFOPLIST_FILE = TestVNHandPose/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.VNHandPose.TestVNHandPose;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thc.VNHandPose.TestVNHandPose;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -468,13 +468,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ABK98C7328;
+				DEVELOPMENT_TEAM = Z3S2SVTN84;
 				INFOPLIST_FILE = TestVNHandPose/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.VNHandPose.TestVNHandPose;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thc.VNHandPose.TestVNHandPose;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

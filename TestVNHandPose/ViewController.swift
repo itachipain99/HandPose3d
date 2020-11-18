@@ -92,7 +92,7 @@ class ViewController: UIViewController {
     func setupWatchNode(with item: Item) {
         
         guard let url = item.url, let overlayContent = SCNReferenceNode(url: url) else { return }
-        print(item.url)
+        print(item.url!)
         watchOverlayContent?.removeFromParentNode()
         watchOverlayContent = overlayContent
         watchOverlayContent?.load()
@@ -103,13 +103,13 @@ class ViewController: UIViewController {
         
         overlayContent.scale = .init(scale, scale, scale)
 //        watchNode.eulerAngles = SCNVector3()
-        watchNode.position = .init(0.0, 0.0, -0.3)
+        watchNode.position = .init(0.0, 0.0, -0.2)
         watchNode.addChildNode(self.watchOverlayContent!)
 //        watchNode.frame.widt
         self.sceneView.scene.rootNode.addChildNode(watchNode)
     }
     
-    func processPoints(indexMCP: CGPoint?, littleMCP : CGPoint?,wrist : CGPoint?,middleMCP : CGPoint?) {
+    func processPoints(indexMCP: CGPoint?, littleMCP : CGPoint?,wrist : CGPoint?,middleMCP : CGPoint?, thumbCMC: CGPoint?) {
         // Check that we have both points.
         guard let indexPoint = indexMCP, let littlePoint = littleMCP,let wristPoint = wrist ,let midPoint = middleMCP else {
             // If there were no observations for more than 2 seconds reset gesture processor.
@@ -126,8 +126,17 @@ class ViewController: UIViewController {
         let littlePointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: littlePoint)
         let wristPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: wristPoint)
         let middlePointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: midPoint)
-        self.watchNode.eulerAngles.x = Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
-        self.watchNode.eulerAngles.z = Float(gestureProcessor.getAngleZ((.zero,.zero,wristPointConverted,middlePointConverted)) - 90)
+        print(midPoint.x)
+        if thumbCMC!.y > wrist!.y {
+            print("Left hand")
+            self.watchNode.eulerAngles.x = -Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
+            self.watchNode.eulerAngles.z = (Float(gestureProcessor.getAngleZ((.zero,.zero,wristPointConverted,middlePointConverted))) - Float.pi/2)
+        } else {
+            print("Right hand")
+            self.watchNode.eulerAngles.x = Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
+            self.watchNode.eulerAngles.z = -(Float(gestureProcessor.getAngleZ((.zero,.zero,wristPointConverted,middlePointConverted))) - Float.pi/2)
+        }
+        
         // Process new points
         
 //        gestureProcessor.processPointsPair((thumbPointConverted, indexPointConverted))
@@ -154,11 +163,12 @@ class ViewController: UIViewController {
         var indexMCP: CGPoint?
         var littleMCP: CGPoint?
         var midMCP : CGPoint?
+        var thumbCMC : CGPoint?
         var wrist : CGPoint?
         
         defer {
             DispatchQueue.main.async {
-                self.processPoints(indexMCP: indexMCP, littleMCP: littleMCP, wrist: wrist,middleMCP: midMCP)
+                self.processPoints(indexMCP: indexMCP, littleMCP: littleMCP, wrist: wrist, middleMCP: midMCP, thumbCMC: thumbCMC)
             }
         }
         
@@ -176,9 +186,10 @@ class ViewController: UIViewController {
             let indexFingerPoints = try observation.recognizedPoints(.indexFinger)
             let littleFingerPoints = try observation.recognizedPoints(.littleFinger)
             let middleFingerPoints = try observation.recognizedPoints(.middleFinger)
+            let thumbFingerPoints = try observation.recognizedPoints(.thumb)
             let wristHandPoint = try observation.recognizedPoint(.wrist)
             // Look for tip points.
-            guard let indexMCPPoint = indexFingerPoints[.indexMCP], let littleMCPPoint = littleFingerPoints[.littleMCP], let middleMCPPoint = middleFingerPoints[.middleMCP] else {
+            guard let indexMCPPoint = indexFingerPoints[.indexMCP], let littleMCPPoint = littleFingerPoints[.littleMCP], let middleMCPPoint = middleFingerPoints[.middleMCP], let thumbCMCPoint = thumbFingerPoints[.thumbCMC] else {
                 return
             }
             // Ignore low confidence points.
@@ -192,6 +203,8 @@ class ViewController: UIViewController {
             
             midMCP = CGPoint(x: middleMCPPoint.location.x
                              , y: 1 - middleMCPPoint.location.y)
+            
+            thumbCMC = CGPoint(x: thumbCMCPoint.location.x, y: 1 - thumbCMCPoint.location.y)
 
         } catch {
 //            cameraFeedSession?.stopRunning()
