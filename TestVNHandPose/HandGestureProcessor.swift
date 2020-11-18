@@ -52,7 +52,8 @@ class HandGestureProcessor {
 //        print(vector)
         let vectorLittle = pointsPair.litterMCP.vector(from: pointsPair.wrist)
         let angle = atan2(vectorLittle.dy,vectorLittle.dx) - atan2(vectorIndex.dy, vectorIndex.dx)
-        return angle
+        var deg = angle * CGFloat(180.0 / M_PI)
+        return deg
 //        print(angle)
 //        lastProcessedPointsPair = pointsPair
 //        let distance = pointsPair.indexMCP.distance(from: pointsPair.litterMCP)

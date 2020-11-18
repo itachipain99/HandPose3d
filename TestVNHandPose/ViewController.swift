@@ -111,7 +111,7 @@ class ViewController: UIViewController {
     
     func processPoints(indexMCP: CGPoint?, littleMCP : CGPoint?,wrist : CGPoint?,middleMCP : CGPoint?, thumbCMC: CGPoint?) {
         // Check that we have both points.
-        guard let indexPoint = indexMCP, let littlePoint = littleMCP,let wristPoint = wrist ,let midPoint = middleMCP else {
+        guard let indexPoint = indexMCP, let littlePoint = littleMCP,let wristPoint = wrist ,let midPoint = middleMCP,let thumbPoint = thumbCMC else {
             // If there were no observations for more than 2 seconds reset gesture processor.
 //            if Date().timeIntervalSince(lastObservationTimestamp) > 2 {
 //                gestureProcessor.reset()
@@ -126,16 +126,48 @@ class ViewController: UIViewController {
         let littlePointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: littlePoint)
         let wristPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: wristPoint)
         let middlePointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: midPoint)
-        print(midPoint.x)
-        if thumbCMC!.y > wrist!.y {
+        let thumbPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: thumbPoint)
+//        print(midPoint.x)
+        
+        if thumbPointConverted.y > wristPointConverted.y {
             print("Left hand")
-            self.watchNode.eulerAngles.x = -Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
-            self.watchNode.eulerAngles.z = (Float(gestureProcessor.getAngleZ((.zero,.zero,wristPointConverted,middlePointConverted))) - Float.pi/2)
-        } else {
-            print("Right hand")
-            self.watchNode.eulerAngles.x = Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
-            self.watchNode.eulerAngles.z = -(Float(gestureProcessor.getAngleZ((.zero,.zero,wristPointConverted,middlePointConverted))) - Float.pi/2)
+            var degIndex = gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero))
+            var degThumb = gestureProcessor.getAngleX((thumbPoint,littlePointConverted,wristPointConverted,.zero))
+            print(degIndex)
+            if degIndex >= -30 && degIndex <= 30 {
+                let angle = degIndex/CGFloat(180.0 / Float.pi)
+                self.watchNode.eulerAngles.x = -Float(angle)
+            }
+            else {
+                let angle = degThumb/CGFloat(180.0 / Float.pi)
+                self.watchNode.eulerAngles.x = -Float(angle)
+            }
         }
+        else if thumbPointConverted.y < wristPointConverted.y{
+            print("Right hand")
+            var degIndex = gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero))
+            var degThumb = gestureProcessor.getAngleX((thumbPoint,littlePointConverted,wristPointConverted,.zero))
+    //        print(degIndex)
+            if degIndex >= -30 && degIndex <= 30 {
+                let angle = degIndex/CGFloat(180.0 / M_PI)
+                self.watchNode.eulerAngles.x = Float(angle)
+            }
+            else {
+                let angle = degThumb/CGFloat(180.0 / M_PI)
+                self.watchNode.eulerAngles.x = Float(angle)
+            }
+        }
+        
+//        if gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)) {
+//            print("Left hand")
+//
+//            self.watchNode.eulerAngles.x =  Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
+//            self.watchNode.eulerAngles.z = (Float(gestureProcessor.getAngleZ((.zero,.zero,wristPointConverted,middlePointConverted))) - Float.pi/2)
+//        }
+//            print("Right hand")
+//            self.watchNode.eulerAngles.x = Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
+//            self.watchNode.eulerAngles.z = -(Float(gestureProcessor.getAngleZ((.zero,.zero,wristPointConverted,middlePointConverted))) - Float.pi/2)
+//        }
         
         // Process new points
         
