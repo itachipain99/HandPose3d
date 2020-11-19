@@ -46,7 +46,7 @@ class HandGestureProcessor {
         apartEvidenceCounter = 0
     }
     
-    func getAngleX(_ pointsPair: PointsPair) -> CGFloat {
+    func getAngle(_ pointsPair: PointsPair) -> CGFloat {
 //        change = vector
         let vectorIndex = pointsPair.indexMCP.vector(from : pointsPair.wrist)
 //        print(vector)
@@ -73,10 +73,9 @@ class HandGestureProcessor {
 //            state = (apartEvidenceCounter >= evidenceCounterStateTrigger) ? .apart : .possibleApart
 //        }
     }
-    func getAngleZ(_ pointsPair: PointsPair) -> CGFloat{
-        let vectorWrist = pointsPair.midMCP.vector(from: pointsPair.wrist)
-        let angle = acos(vectorWrist.lengthVector(p1: vectorWrist))
-        return angle
+    func getDistance(_ pointsPair: PointsPair) -> CGFloat {
+        let distance = pointsPair.indexMCP.distance(from: pointsPair.wrist)
+        return distance
     }
 }
 

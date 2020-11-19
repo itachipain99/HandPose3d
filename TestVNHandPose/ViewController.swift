@@ -109,6 +109,7 @@ class ViewController: UIViewController {
         self.sceneView.scene.rootNode.addChildNode(watchNode)
     }
     
+    var check = true
     func processPoints(indexMCP: CGPoint?, littleMCP : CGPoint?,wrist : CGPoint?,middleMCP : CGPoint?, thumbCMC: CGPoint?) {
         // Check that we have both points.
         guard let indexPoint = indexMCP, let littlePoint = littleMCP,let wristPoint = wrist ,let midPoint = middleMCP,let thumbPoint = thumbCMC else {
@@ -128,13 +129,24 @@ class ViewController: UIViewController {
         let middlePointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: midPoint)
         let thumbPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: thumbPoint)
 //        print(midPoint.x)
+        let pointScreen = CGPoint(x: wristPointConverted.x, y: wristPointConverted.y + 20)
+        let pointScreen2 = CGPoint(x : wristPointConverted.x + 20 , y: wristPointConverted.y + 20)
         
-        if thumbPointConverted.y > wristPointConverted.y {
-            print("Left hand")
-            var degIndex = gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero))
-            var degThumb = gestureProcessor.getAngleX((thumbPoint,littlePointConverted,wristPointConverted,.zero))
+//        if check {
+//            check = false
+        var degZ = gestureProcessor.getAngle((middlePointConverted,pointScreen,wristPointConverted,.zero))
+        if degZ <= -200 {
+            degZ = 90
+        }
+        self.watchNode.eulerAngles.z = Float(degZ/CGFloat(180.0 / Float.pi))
+//        print(degZ)
+//
+//        if thumbPointConverted.y > wristPointConverted.y {
+//            print("Left hand")
+            var degIndex = gestureProcessor.getAngle((indexPointConverted,littlePointConverted,wristPointConverted,.zero))
+            var degThumb = gestureProcessor.getAngle((thumbPoint,littlePointConverted,wristPointConverted,.zero))
             print(degIndex)
-            if degIndex >= -30 && degIndex <= 30 {
+            if degIndex >= -30 && degIndex <= 21 {
                 let angle = degIndex/CGFloat(180.0 / Float.pi)
                 self.watchNode.eulerAngles.x = -Float(angle)
             }
@@ -142,36 +154,30 @@ class ViewController: UIViewController {
                 let angle = degThumb/CGFloat(180.0 / Float.pi)
                 self.watchNode.eulerAngles.x = -Float(angle)
             }
-        }
-        else if thumbPointConverted.y < wristPointConverted.y{
-            print("Right hand")
-            var degIndex = gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero))
-            var degThumb = gestureProcessor.getAngleX((thumbPoint,littlePointConverted,wristPointConverted,.zero))
-    //        print(degIndex)
-            if degIndex >= -30 && degIndex <= 30 {
-                let angle = degIndex/CGFloat(180.0 / M_PI)
-                self.watchNode.eulerAngles.x = Float(angle)
-            }
-            else {
-                let angle = degThumb/CGFloat(180.0 / M_PI)
-                self.watchNode.eulerAngles.x = Float(angle)
-            }
-        }
+    
         
-//        if gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)) {
-//            print("Left hand")
-//
-//            self.watchNode.eulerAngles.x =  Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
-//            self.watchNode.eulerAngles.z = (Float(gestureProcessor.getAngleZ((.zero,.zero,wristPointConverted,middlePointConverted))) - Float.pi/2)
+//        let width = overlayContent.boundingBox.max.x - overlayContent.boundingBox.min.x
+//        let scale = Float(item.actualSize.width) / (width * 100.0)
+//        
+//        overlayContent.scale = .init(scale, scale, scale)
+////        watchNode.eulerAngles = SCNVector3()
+//        watchNode.position = .init(0.0, 0.0, -0.2)
+//        watchNode.addChildNode(self.watchOverlayContent!)
 //        }
+//        else if thumbPointConverted.y < wristPointConverted.y{
 //            print("Right hand")
-//            self.watchNode.eulerAngles.x = Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
-//            self.watchNode.eulerAngles.z = -(Float(gestureProcessor.getAngleZ((.zero,.zero,wristPointConverted,middlePointConverted))) - Float.pi/2)
+//            var degIndex = gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero))
+//            var degThumb = gestureProcessor.getAngleX((thumbPoint,littlePointConverted,wristPointConverted,.zero))
+//    //        print(degIndex)
+//            if degIndex >= -30 && degIndex <= 30 {
+//                let angle = degIndex/CGFloat(180.0 / M_PI)
+//                self.watchNode.eulerAngles.x = Float(angle)
+//            }
+//            else {
+//                let angle = degThumb/CGFloat(180.0 / M_PI)
+//                self.watchNode.eulerAngles.x = Float(angle)
+//            }
 //        }
-        
-        // Process new points
-        
-//        gestureProcessor.processPointsPair((thumbPointConverted, indexPointConverted))
     }
    
     func loopCoreMLUpdata(){
@@ -196,6 +202,7 @@ class ViewController: UIViewController {
         var littleMCP: CGPoint?
         var midMCP : CGPoint?
         var thumbCMC : CGPoint?
+        var ringCMC : CGPoint?
         var wrist : CGPoint?
         
         defer {
@@ -225,7 +232,8 @@ class ViewController: UIViewController {
                 return
             }
             // Ignore low confidence points.
-            guard indexMCPPoint.confidence > 0.3 && littleMCPPoint.confidence > 0.3 else {
+//            print(indexMCPPoint.confidence , littleMCPPoint.confidence,middleMCPPoint.confidence,wristHandPoint.confidence,thumbCMCPoint.confidence)
+            guard indexMCPPoint.confidence > 0.8 && littleMCPPoint.confidence > 0.8 && middleMCPPoint.confidence > 0.8 && wristHandPoint.confidence > 0.8 && thumbCMCPoint.confidence > 0.8 else {
                 return
             }
             // Convert points from Vision coordinates to AVFoundation coordinates.
