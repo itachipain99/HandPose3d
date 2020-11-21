@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     var watchNode: SCNNode = SCNNode()
     var watchOverlayContent: SCNReferenceNode? = nil
     var spotLight: SCNNode? = nil
+    var amplitude: Float = -1
     private var gestureProcessor = HandGestureProcessor()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,7 +112,7 @@ class ViewController: UIViewController {
     
     func processPoints(indexMCP: CGPoint?, littleMCP : CGPoint?,wrist : CGPoint?,middleMCP : CGPoint?, thumbCMC: CGPoint?) {
         // Check that we have both points.
-        guard let indexPoint = indexMCP, let littlePoint = littleMCP,let wristPoint = wrist ,let midPoint = middleMCP else {
+        guard let indexPoint = indexMCP, let littlePoint = littleMCP,let wristPoint = wrist ,let midPoint = middleMCP, let thumbPoint = thumbCMC else {
             // If there were no observations for more than 2 seconds reset gesture processor.
 //            if Date().timeIntervalSince(lastObservationTimestamp) > 2 {
 //                gestureProcessor.reset()
@@ -126,14 +127,20 @@ class ViewController: UIViewController {
         let littlePointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: littlePoint)
         let wristPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: wristPoint)
         let middlePointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: midPoint)
-        print(midPoint.x)
+        let thumbPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: thumbPoint)
         if thumbCMC!.y > wrist!.y {
             print("Left hand")
-            self.watchNode.eulerAngles.x = -Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
+//            self.watchNode.eulerAngles.x = -Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
+            self.watchNode.eulerAngles.x = -acos(Float((thumbPointConverted.x - wristPointConverted.x))/self.amplitude)
+            print("eulerAngles")
+            print(self.watchNode.eulerAngles.x)
             self.watchNode.eulerAngles.z = (Float(gestureProcessor.getAngleZ((.zero,.zero,wristPointConverted,middlePointConverted))) - Float.pi/2)
         } else {
             print("Right hand")
-            self.watchNode.eulerAngles.x = Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
+            self.watchNode.eulerAngles.x = acos(Float((thumbPointConverted.x - wristPointConverted.x))/self.amplitude)
+            print("eulerAngles")
+            print(self.watchNode.eulerAngles.x)
+//            self.watchNode.eulerAngles.x = Float(gestureProcessor.getAngleX((indexPointConverted,littlePointConverted,wristPointConverted,.zero)))
             self.watchNode.eulerAngles.z = -(Float(gestureProcessor.getAngleZ((.zero,.zero,wristPointConverted,middlePointConverted))) - Float.pi/2)
         }
         
@@ -205,6 +212,12 @@ class ViewController: UIViewController {
                              , y: 1 - middleMCPPoint.location.y)
             
             thumbCMC = CGPoint(x: thumbCMCPoint.location.x, y: 1 - thumbCMCPoint.location.y)
+            
+            if self.amplitude == -1 {
+                self.amplitude = Float(abs(littleMCP!.x - wrist!.x))
+            }
+            print("Amplitude")
+            print(self.amplitude)
 
         } catch {
 //            cameraFeedSession?.stopRunning()
@@ -232,7 +245,7 @@ struct Item: Identifiable, Hashable, Decodable {
     var actualSize: Size
     
     var url: URL? {
-        return Bundle.main.url(forResource: "Apple_Watch.usdz", withExtension: nil)
+        return Bundle.main.url(forResource: "apple watch.usdz", withExtension: nil)
     }
 }
 

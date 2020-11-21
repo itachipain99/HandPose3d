@@ -18,6 +18,7 @@
 		15E15B3C255BDEA200DA0717 /* TestVNHandPoseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E15B3B255BDEA200DA0717 /* TestVNHandPoseTests.swift */; };
 		15E15B47255BDEA200DA0717 /* TestVNHandPoseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E15B46255BDEA200DA0717 /* TestVNHandPoseUITests.swift */; };
 		4AF6809D2564BFBF0074B235 /* Apple_Watch.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4AF6809C2564BFBF0074B235 /* Apple_Watch.usdz */; };
+		4AF680B02565138F0074B235 /* apple watch.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4AF680AF2565138F0074B235 /* apple watch.usdz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		15E15B46255BDEA200DA0717 /* TestVNHandPoseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestVNHandPoseUITests.swift; sourceTree = "<group>"; };
 		15E15B48255BDEA200DA0717 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4AF6809C2564BFBF0074B235 /* Apple_Watch.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Apple_Watch.usdz; sourceTree = "<group>"; };
+		4AF680AF2565138F0074B235 /* apple watch.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = "apple watch.usdz"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 				15E15B24255BDE9F00DA0717 /* AppDelegate.swift */,
 				15E15B26255BDE9F00DA0717 /* SceneDelegate.swift */,
 				4AF6809C2564BFBF0074B235 /* Apple_Watch.usdz */,
+				4AF680AF2565138F0074B235 /* apple watch.usdz */,
 				1567FC13255E87310010E7EC /* CameraView.swift */,
 				15E15B28255BDE9F00DA0717 /* ViewController.swift */,
 				1567FC0E255E6AD30010E7EC /* HandGestureProcessor.swift */,
@@ -243,6 +246,7 @@
 				15E15B31255BDEA200DA0717 /* LaunchScreen.storyboard in Resources */,
 				15E15B2E255BDEA200DA0717 /* Assets.xcassets in Resources */,
 				4AF6809D2564BFBF0074B235 /* Apple_Watch.usdz in Resources */,
+				4AF680B02565138F0074B235 /* apple watch.usdz in Resources */,
 				15E15B2C255BDE9F00DA0717 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
