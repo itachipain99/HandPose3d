@@ -25,8 +25,8 @@ class ViewController: UIViewController {
     var testNode : SCNNode = SCNNode()
     var handNode : SCNNode? = nil
     var cameraNode: SCNNode = SCNNode()
-    var watchNode: SCNNode = SCNNode()
-    var watchOverlayContent: SCNReferenceNode? = nil
+    var watchNode: SCNReferenceNode = SCNReferenceNode()
+//    var watchOverlayContent: SCNReferenceNode? = nil
     var spotLight: SCNNode? = nil
     private var gestureProcessor = HandGestureProcessor()
     override func viewDidLoad() {
@@ -42,7 +42,8 @@ class ViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        let configure = ARWorldTrackingConfiguration()
+        var configure = ARWorldTrackingConfiguration()
+//        configure.detectionObjects = .
         self.sceneView.session.run(configure)
 //        self.sceneView.session.delegate = self
     }
@@ -89,26 +90,30 @@ class ViewController: UIViewController {
 //        session.commitConfiguration()
 //        cameraFeedSession = session
 //}
+    var itemW  : Item?
+    typealias positionNode = (CGPoint)
     func setupWatchNode(with item: Item) {
         
         guard let url = item.url, let overlayContent = SCNReferenceNode(url: url) else { return }
 //        print(item.url)
-        watchOverlayContent?.removeFromParentNode()
-        watchOverlayContent = overlayContent
-        watchOverlayContent?.load()
+//        watchOverlayContent?.removeFromParentNode()
+        watchNode = overlayContent
+        watchNode.load()
         
         
         let width = overlayContent.boundingBox.max.x - overlayContent.boundingBox.min.x
-        let scale = Float(item.actualSize.width) / (width * 100.0)
-        
+        let scale = Float(item.actualSize.width) / (width * 200.0)
+        itemW = item
+        print(overlayContent.childNodes.count)
         overlayContent.scale = .init(scale, scale, scale)
 //        watchNode.eulerAngles = SCNVector3()
-        watchNode.position = .init(0.0, 0.0, -0.2)
-        watchNode.addChildNode(self.watchOverlayContent!)
+        watchNode.position = .init(0, 0, 0)
+//        watchNode.addChildNode(self.watchOverlayContent!)
 //        watchNode.frame.widt
         self.sceneView.scene.rootNode.addChildNode(watchNode)
     }
     
+    var pointWrist1 : CGPoint?
     var check = true
     func processPoints(indexMCP: CGPoint?, littleMCP : CGPoint?,wrist : CGPoint?,middleMCP : CGPoint?, thumbCMC: CGPoint?) {
         // Check that we have both points.
@@ -132,6 +137,7 @@ class ViewController: UIViewController {
         let pointScreen = CGPoint(x: wristPointConverted.x, y: wristPointConverted.y + 20)
         let pointScreen2 = CGPoint(x : wristPointConverted.x + 20 , y: wristPointConverted.y + 20)
         
+        
 //        if check {
 //            check = false
         var degZ = gestureProcessor.getAngle((middlePointConverted,pointScreen,wristPointConverted,.zero))
@@ -145,7 +151,35 @@ class ViewController: UIViewController {
 //            print("Left hand")
             var degIndex = gestureProcessor.getAngle((indexPointConverted,littlePointConverted,wristPointConverted,.zero))
             var degThumb = gestureProcessor.getAngle((thumbPoint,littlePointConverted,wristPointConverted,.zero))
-            print(degIndex)
+//            print(degIndex)
+//        let postionX =
+        let rayCast = self.sceneView.raycastQuery(from: wristPointConverted, allowing: .existingPlaneInfinite, alignment: .any)
+    
+        self.sceneView.session.trackedRaycast(rayCast!, updateHandler: { (isa) in
+            print(isa)
+        })
+        
+//        self.sceneView
+//        print(wristPointConverted)
+//        let scnview = self.view as! SCNView
+//        let point = wristPointConverted.
+////        let positionX = rayCast?.x
+////        let positionY = rayCast?.y
+////        let positionZ = rayCast?.z
+//        print(rayCast!)
+        let distanceMid = wristPointConverted.distance(from: thumbPointConverted)
+        let distanceDD = wristPoint.distance(from: thumbPoint)
+//        let projectedOrigin = self.sceneView.projectPoint(SCNVector3Zero)
+        let point1 = self.sceneView.hitTest(wristPointConverted, options: [SCNHitTestOption.clipToZRange : 0])
+        let point2 = self.sceneView.hitTest(wristPointConverted, with: .none)
+//        print(poin)
+        let project2D = self.sceneView.unprojectPoint(SCNVector3(wristPointConverted.x, wristPointConverted.y, 0.0))
+        watchNode.position = SCNVector3(Float(wristPointConverted.y)*0.1, Float(wristPointConverted.x)*0.1, Float(distanceMid - 0.2))
+//        print(project2D)
+//        let vpWithz = SCNVector3(x: Float(wristPointConverted.y), y: Float(wristPointConverted.x), z: 0.0)
+//        let worldPoint = self.sceneView.unprojectPoint(vpWithz)
+//        print(worldPoint)
+//        watchNode.position = SCNVector3(worldPoint.y, worldPoint.x, -worldPoint.z)
             if degIndex >= -30 && degIndex <= 21 {
                 let angle = degIndex/CGFloat(180.0 / Float.pi)
                 self.watchNode.eulerAngles.x = -Float(angle)
@@ -233,7 +267,7 @@ class ViewController: UIViewController {
             }
             // Ignore low confidence points.
 //            print(indexMCPPoint.confidence , littleMCPPoint.confidence,middleMCPPoint.confidence,wristHandPoint.confidence,thumbCMCPoint.confidence)
-            guard indexMCPPoint.confidence > 0.8 && littleMCPPoint.confidence > 0.8 && middleMCPPoint.confidence > 0.8 && wristHandPoint.confidence > 0.8 && thumbCMCPoint.confidence > 0.8 else {
+            guard indexMCPPoint.confidence > 0.8 && littleMCPPoint.confidence > 0.8 && middleMCPPoint.confidence > 0.8 && wristHandPoint.confidence > 0.5 && thumbCMCPoint.confidence > 0.8 else {
                 return
             }
             // Convert points from Vision coordinates to AVFoundation coordinates.
